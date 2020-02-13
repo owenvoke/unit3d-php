@@ -94,6 +94,6 @@ class Torrent extends AbstractApi
             'dead',
         ];
 
-        return array_filter($filters, static fn($key) => array_key_exists($key, $allowedKeys), ARRAY_FILTER_USE_KEY);
+        return array_filter($filters, static fn (string $key) => array_key_exists($key, $allowedKeys), ARRAY_FILTER_USE_KEY);
     }
 }
