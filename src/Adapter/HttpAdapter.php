@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace OwenVoke\Unit3d\Adapter;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Response;
 use OwenVoke\Unit3d\Exception\HttpException;
-use function is_array;
-use function json_decode;
-use function sprintf;
+use Psr\Http\Message\ResponseInterface;
 
 class HttpAdapter
 {
-    protected ClientInterface $client;
+    protected Client $client;
 
-    protected Response $response;
+    protected ResponseInterface $response;
 
-    public function __construct(string $token, ?ClientInterface $client = null)
+    public function __construct(string $token, ?Client $client = null)
     {
         $this->client = $client ?: new Client(['headers' => ['Authorization' => sprintf('Bearer %s', $token)]]);
     }
@@ -98,19 +94,6 @@ class HttpAdapter
         }
 
         return (string) $this->response->getBody();
-    }
-
-    public function getLatestResponseHeaders(): ?array
-    {
-        if (null === $this->response) {
-            return null;
-        }
-
-        return [
-            'reset' => (int) (string) $this->response->getHeader('RateLimit-Reset'),
-            'remaining' => (int) (string) $this->response->getHeader('RateLimit-Remaining'),
-            'limit' => (int) (string) $this->response->getHeader('RateLimit-Limit'),
-        ];
     }
 
     /** @throws HttpException */
