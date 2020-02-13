@@ -19,7 +19,7 @@ $ composer require owenvoke/unit3d
 
 ## Usage
 
-...
+Please see [the docs](docs) for information on using this library.
 
 ## Change log
 
