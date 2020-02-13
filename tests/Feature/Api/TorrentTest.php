@@ -80,4 +80,27 @@ final class TorrentTest extends TestCase
             $torrent->downloadLink
         );
     }
+
+    /** @test */
+    public function it_can_get_filtered_torrents(): void
+    {
+        $apiWrapper = $this->getMockedApiWrapper([
+            new Response(
+                200,
+                [],
+                file_get_contents($this->getFixturesDirectory('responses/torrents.filter.json'))
+            ),
+        ]);
+
+        $torrents = $apiWrapper->torrents()->filter(1, ['name' => 'Joker 2019']);
+        /** @var TorrentEntity $torrent */
+        $torrent = $torrents[0];
+
+        $this->assertSame(39248, $torrent->id);
+        $this->assertSame('Joker 2019 1080p WEB-DL DD5.1 H264-CMRG', $torrent->name);
+        $this->assertSame(
+            'https://blutopia.xyz/torrent/download/39248.8d5b7108db36e46442e71580ab0c2f18',
+            $torrent->downloadLink
+        );
+    }
 }
