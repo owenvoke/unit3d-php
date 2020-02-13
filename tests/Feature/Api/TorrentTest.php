@@ -48,15 +48,36 @@ final class TorrentTest extends TestCase
             ),
         ]);
 
-        $response = $apiWrapper->torrents()->getAll(10);
-        /** @var TorrentEntity $first */
-        $first = $response[0];
+        $torrents = $apiWrapper->torrents()->getAll(10);
+        /** @var TorrentEntity $torrent */
+        $torrent = $torrents[0];
 
-        $this->assertSame(39808, $first->id);
-        $this->assertSame('Gwendoline 1984 2in1 1080p Blu-ray AVC DTS-HD MA 5.1', $first->name);
+        $this->assertSame(39808, $torrent->id);
+        $this->assertSame('Gwendoline 1984 2in1 1080p Blu-ray AVC DTS-HD MA 5.1', $torrent->name);
         $this->assertSame(
             'https://blutopia.xyz/torrent/download/39808.8d5b7108db36e46442e71580ab0c2f18',
-            $first->downloadLink
+            $torrent->downloadLink
+        );
+    }
+
+    /** @test */
+    public function it_can_get_a_single_torrent_by_its_id(): void
+    {
+        $apiWrapper = $this->getMockedApiWrapper([
+            new Response(
+                200,
+                [],
+                file_get_contents($this->getFixturesDirectory('responses/torrents.single.json'))
+            ),
+        ]);
+
+        $torrent = $apiWrapper->torrents()->get(1);
+
+        $this->assertSame(39765, $torrent->id);
+        $this->assertSame('Bad Blood 2017 S01 REPACK 1080p BluRay REMUX AVC FLAC 2.0-BLURANiUM', $torrent->name);
+        $this->assertSame(
+            'https://blutopia.xyz/torrent/download/39765.8d5b7108db36e46442e71580ab0c2f18',
+            $torrent->downloadLink
         );
     }
 }
