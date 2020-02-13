@@ -41,7 +41,7 @@ class Torrent extends AbstractApi
 
     /**
      * @param  int|null  $page
-     * @param  array<string, string|int|bool>  $filters
+     * @param  array<string, string|int|bool|null>|null  $filters
      * @return array<int, TorrentEntity>
      */
     public function filter(?int $page = null, ?array $filters = null): array
@@ -63,8 +63,8 @@ class Torrent extends AbstractApi
     }
 
     /**
-     * @param  array<string, string|int|bool>  $filters
-     * @return array<string, string|int|bool>
+     * @param  array<string, string|int|bool|null>  $filters
+     * @return array<string, string|int|bool|null>
      */
     private function validateFilters(array $filters): array
     {
