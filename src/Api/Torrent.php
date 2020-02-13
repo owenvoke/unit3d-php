@@ -44,9 +44,9 @@ class Torrent extends AbstractApi
      * @param  array<string, string|int|bool>  $filters
      * @return array<int, TorrentEntity>
      */
-    public function filter(?int $page = null, array $filters = []): array
+    public function filter(?int $page = null, ?array $filters = null): array
     {
-        $filters = $this->validateFilters($filters);
+        $filters = $this->validateFilters($filters ?? []);
 
         $query = http_build_query(array_merge($filters, ['page' => $page ?? 1]));
 
