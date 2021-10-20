@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace OwenVoke\UNIT3D;
 
-use OwenVoke\UNIT3D\Api\AbstractApi;
-use Psr\Http\Client\ClientInterface;
-use OwenVoke\UNIT3D\HttpClient\Builder;
-use Http\Discovery\Psr17FactoryDiscovery;
-use Http\Client\Common\Plugin\AddHostPlugin;
-use Http\Client\Common\Plugin\RedirectPlugin;
 use Http\Client\Common\HttpMethodsClientInterface;
-use OwenVoke\UNIT3D\HttpClient\Plugin\PathPrepend;
+use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
+use Http\Client\Common\Plugin\RedirectPlugin;
+use Http\Discovery\Psr17FactoryDiscovery;
+use OwenVoke\UNIT3D\Api\AbstractApi;
 use OwenVoke\UNIT3D\Api\Torrent;
 use OwenVoke\UNIT3D\Exception\BadMethodCallException;
-use OwenVoke\UNIT3D\HttpClient\Plugin\Authentication;
 use OwenVoke\UNIT3D\Exception\InvalidArgumentException;
+use OwenVoke\UNIT3D\HttpClient\Builder;
+use OwenVoke\UNIT3D\HttpClient\Plugin\Authentication;
+use OwenVoke\UNIT3D\HttpClient\Plugin\PathPrepend;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * @method Api\Torrent torrent()

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use OwenVoke\UNIT3D\Client;
 use OwenVoke\UNIT3D\Api\Torrent;
+use OwenVoke\UNIT3D\Client;
 
 it('gets instances from the client', function () {
     $client = new Client();
