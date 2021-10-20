@@ -1,99 +1,23 @@
 <?php
 
-namespace OwenVoke\Unit3d\Api;
+declare(strict_types=1);
 
-use OwenVoke\Unit3d\Entity\Torrent as TorrentEntity;
-use stdClass;
+namespace OwenVoke\UNIT3D\Api;
 
 class Torrent extends AbstractApi
 {
-    /**
-     * @param  int|null  $page
-     * @return array<int, TorrentEntity>
-     */
-    public function getAll(?int $page = null): array
+    public function all(array $parameters = []): array
     {
-        $query = http_build_query(['page' => $page ?? 1]);
-
-        $response = $this->adapter->get(sprintf('%s/api/torrents?%s', $this->endpoint, $query));
-
-        $data = json_decode($response);
-
-        return array_map(static function (stdClass $torrent): TorrentEntity {
-            $meta = $torrent->attributes ?? [];
-            $meta->id = (int) $torrent->id;
-
-            return new TorrentEntity($meta);
-        }, $data->data);
+        return $this->get('/torrents', $parameters);
     }
 
-    public function get(int $id): TorrentEntity
+    public function show(int $id, array $parameters = []): array
     {
-        $response = $this->adapter->get(sprintf('%s/api/torrents/%s', $this->endpoint, $id));
-
-        $data = json_decode($response);
-
-        $meta = $data->attributes ?? [];
-        $meta->id = (int) $data->id;
-
-        return new TorrentEntity($meta);
+        return $this->get(sprintf('/torrents/%s', $id), $parameters);
     }
 
-    /**
-     * @param  int|null  $page
-     * @param  array<string, string|int|bool|null>|null  $filters
-     * @return array<int, TorrentEntity>
-     */
-    public function filter(?int $page = null, ?array $filters = null): array
+    public function filtered(array $parameters = []): array
     {
-        $filters = $this->validateFilters($filters ?? []);
-
-        $query = http_build_query(array_merge($filters, ['page' => $page ?? 1]));
-
-        $response = $this->adapter->get(sprintf('%s/api/torrents/filter?%s', $this->endpoint, $query));
-
-        $data = json_decode($response);
-
-        return array_map(static function (stdClass $torrent): TorrentEntity {
-            $meta = $torrent->attributes ?? [];
-            $meta->id = (int) $torrent->id;
-
-            return new TorrentEntity($meta);
-        }, $data->data);
-    }
-
-    /**
-     * @param  array<string, string|int|bool|null>  $filters
-     * @return array<string, string|int|bool|null>
-     */
-    private function validateFilters(array $filters): array
-    {
-        $allowedKeys = [
-            'name',
-            'description',
-            'uploader',
-            'imdb',
-            'tvdb',
-            'tmdb',
-            'mal',
-            'igdb',
-            'start_year',
-            'end_year',
-            'categories',
-            'types',
-            'genres',
-            'freeleech',
-            'doubleupload',
-            'featured',
-            'stream',
-            'highspeed',
-            'sd',
-            'internal',
-            'alive',
-            'dying',
-            'dead',
-        ];
-
-        return array_filter($filters, static fn (string $key) => in_array($key, $allowedKeys, true), ARRAY_FILTER_USE_KEY);
+        return $this->get('/torrents/filter', $parameters);
     }
 }

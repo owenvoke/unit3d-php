@@ -1,9 +1,9 @@
 <?php
 
-declare(strict_types=1);
+namespace OwenVoke\UNIT3D\Exception;
 
-namespace OwenVoke\Unit3d\Exception;
+use Http\Client\Exception;
 
-interface ExceptionInterface
+interface ExceptionInterface extends Exception
 {
 }
